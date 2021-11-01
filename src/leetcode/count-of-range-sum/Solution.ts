@@ -1,10 +1,9 @@
-import { mergeSort } from "../global-and-local-inversions/Solution";
-
 export function countRangeSum(nums: number[], lower: number, upper: number): number {
-  let prefixArray = nums.reduce<number[]>(
-    (prev, curr) => [...prev, (prev[prev.length - 1] ?? 0) + curr],
-    []
-  );
+  let prefixArray = Array(nums.length);
+  for (let i = 0; i < nums.length; i++) {
+    prefixArray[i] = (prefixArray[i - 1] ?? 0) + nums[i];
+
+  }
 
   let result = 0;
   for (let i = -1; i < nums.length - 1; i++) {
@@ -87,10 +86,11 @@ const countRangeSumSub = (
  * prefix = [ 2, 3, 2]
  */
 export function countRangeSum2(nums: number[], lower: number, upper: number): number {
-  const prefixArray = nums.reduce<number[]>(
-    (prev, curr) => [...prev, (prev[prev.length - 1] ?? 0) + curr],
-    []
-  );
+  let prefixArray = Array(nums.length);
+  for (let i = 0; i < nums.length; i++) {
+    prefixArray[i] = (prefixArray[i - 1] ?? 0) + nums[i];
+
+  }
   return countRangeSumSub(
     prefixArray,
     { start: 0, end: prefixArray.length - 1 },

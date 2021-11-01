@@ -9,8 +9,35 @@ describe("countRangeSum", () => {
     expect(countRangeSum2([1, 2, 3], 4, 4)).toBe(0);
     expect(countRangeSum2([1, 2, 3], 3, 6)).toBe(4);
     expect(countRangeSum2([-3,-3,1,1,2], 3, 5)).toBe(2);
-    expect(countRangeSum2([0, 1,1,2], 3, 5)).toBe(2);
+    expect(countRangeSum2([0, 1,1,2], 3, 5)).toBe(3);
   });
+  it("performance compare.", () => {
+      const nums = Array(10000).fill(0).map((_, i) => i);
+      const nums2 = Array(20000).fill(0).map((_, i) => i);
+      const nums3 = Array(4000000).fill(0).map((_, i) => i);
+    
+      console.time("countRangeSum2")
+      countRangeSum2(nums, 3, 50);
+      console.timeEnd("countRangeSum2")
+      console.time("countRangeSum2")
+      countRangeSum2(nums2, 3, 50);
+      console.timeEnd("countRangeSum2")
+      console.time("countRangeSum2")
+      countRangeSum2(nums3, 3, 50);
+      console.timeEnd("countRangeSum2")
+
+    //   console.time("countRangeSum")
+    //   countRangeSum(nums, 3, 50);
+    //   console.timeEnd("countRangeSum")
+    //   console.time("countRangeSum")
+    //   countRangeSum(nums2, 3, 50);
+    //   console.timeEnd("countRangeSum")
+    //   console.time("countRangeSum")
+    //   countRangeSum(nums3, 3, 50);
+    //   console.timeEnd("countRangeSum")
+
+
+  })
 });
 
 describe("findIndex", () => {
