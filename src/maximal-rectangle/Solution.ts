@@ -33,3 +33,42 @@ export function maximalRectangle(matrix: string[][]): number {
   }
   return result;
 }
+
+export function maximalRectangle2(matrix: string[][]): number {
+  const columns = matrix.length > 0 ? matrix[0].length : 0;
+  const heights = Array(columns).fill(0);
+  const firstSmallerToLeft = Array(columns).fill(-1);
+  const firstSmallerToRight = Array(columns).fill(columns);
+
+  let result = 0;
+
+  for (let row = 0; row < matrix.length; row++) {
+    for (let column = 0; column < columns; column++) {
+      heights[column] = matrix[row][column] === '1' ? heights[column] + 1 : 0;
+    }
+
+    let rightMostZeroFromLeft = -1;
+    for (let column = 0; column < columns; column++) {
+      firstSmallerToLeft[column] = Math.max(firstSmallerToLeft[column], rightMostZeroFromLeft);
+      if (matrix[row][column] === "0") {
+        rightMostZeroFromLeft = column;
+        firstSmallerToLeft[column] = -1;
+      }
+    }
+
+    let leftMostZeroFromRight = columns;
+    for (let column = columns; column >= 0; column--) {
+      firstSmallerToRight[column] = Math.min(firstSmallerToRight[column], leftMostZeroFromRight);
+      if (matrix[row][column] === "0") {
+        leftMostZeroFromRight = column; 
+        firstSmallerToRight[column] = columns;
+      }
+    }
+    for (let column = 0; column < columns; column++) {
+      const width = firstSmallerToRight[column] - firstSmallerToLeft[column] - 1;
+      const area = heights[column] * width;
+      result = Math.max(result, area);
+    }
+  }
+  return result;
+}
