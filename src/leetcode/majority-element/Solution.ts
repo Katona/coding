@@ -33,16 +33,16 @@ export function majority2Element(nums: number[]): number[] {
   let m2 = -1;
   let c2 = 0;
   nums.forEach((num) => {
-    if (c1 === 0) {
+    if (m1 === num) {
+      c1 += 1;
+    } else if (m2 === num) {
+      c2 += 1;
+    } else if (c1 === 0) {
       m1 = num;
       c1++;
     } else if (c2 === 0) {
       m2 = num;
       c2++;
-    } else if (m1 === num) {
-      c1 += 1;
-    } else if (m2 === num) {
-      c2 += 1;
     } else {
       c1 -= 1;
       c2 -= 1;
