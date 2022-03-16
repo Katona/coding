@@ -12,6 +12,7 @@ describe("SubscriberCounter", () => {
         expect(counter.query(0, 23)).toBe(7);
         expect(counter.query(12, 23)).toBe(6);
         expect(counter.query(13, 23)).toBe(1);
+        expect(counter.query(1, 12)).toBe(5);
         expect(counter.query(0, 12)).toBe(6);
         expect(counter.query(0, 11)).toBe(1);
     })
