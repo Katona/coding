@@ -1,8 +1,8 @@
-import { minimalTree, Node } from "./Solution";
+import { minimalTree, minimalTree2, Node } from "./Solution";
 
 describe("minimalTree", () => {
   it("basic", () => {
-    expect(minimalTree({ value: 1 })).toStrictEqual({
+    expect(minimalTree2({ value: 1 })).toStrictEqual({
       value: 1,
       right: undefined,
       left: undefined,
@@ -31,7 +31,7 @@ describe("minimalTree", () => {
         right: undefined,
       },
     };
-    expect(minimalTree(tree)).toStrictEqual(expectedTree);
+    expect(minimalTree2(tree)).toStrictEqual(expectedTree);
   });
   it("still simple", () => {
     const tree: Node = {
@@ -70,6 +70,6 @@ describe("minimalTree", () => {
         right: undefined,
       },
     };
-    expect(minimalTree(tree)).toStrictEqual(expectedTree);
+    expect(minimalTree2(tree)).toStrictEqual(minimalTree(tree));
   });
 });
