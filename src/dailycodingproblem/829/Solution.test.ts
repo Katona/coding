@@ -23,6 +23,14 @@ describe("ConstantMap", () => {
     expect(map.getMax()).toBe("korte");
     expect(map.getMin()).toBe("alma");
   
+    map.plus("barack"); // alma = 2, korte = 3, barack = 1
+    expect(map.getMax()).toBe("korte");
+    expect(map.getMin()).toBe("barack");
+
+    map.minus("barack"); // alma = 2, korte = 3, barack = 0
+    expect(map.getMax()).toBe("korte");
+    expect(map.getMin()).toBe("alma");
+
     map.minus("korte"); // alma = 2, korte = 2
     expect(map.getMax()).toBe("korte");
     expect(map.getMin()).toBe("korte");
