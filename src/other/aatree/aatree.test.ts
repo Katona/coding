@@ -10,6 +10,11 @@ describe("aatree", () => {
       tree = tree.add(2);
       expect(tree.contains(2)).toBeTruthy();
     });
+
+    it("should keep the tree balanced.", () => {
+        let tree = new AATree().add(1).add(2).add(3).add(4).add(5).add(6);
+        console.log(tree.toString());
+    })
   });
 
   describe("delete", () => {

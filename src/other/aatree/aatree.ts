@@ -39,6 +39,8 @@ export class AATree {
     } else if (n > root.value) {
       result = { ...root, right: this.insert(root.right, n) };
     }
+    result = this.skew(result);
+    result = this.split(result);
     return result;
   };
 
@@ -73,17 +75,69 @@ export class AATree {
     return minNode;
   };
 
+  /**
+   *        |                   |
+   *        v                   v
+   *   L <- T                   L -> T
+   *  / \    \      =>         /    / \
+   * A   B    X               A    B   X
+   *
+   */
+  private skew = (oldT: TreeNode): TreeNode => {
+    if (oldT.left == null || oldT.left.level < oldT.level) return oldT;
+    const newT: TreeNode = {
+      ...oldT,
+      left: oldT.left.right,
+    };
+    const newL = {
+      ...oldT.left,
+      right: newT,
+    };
+    return newL;
+  };
+
+  /**
+   *     |                      |
+   *     v                      v
+   *     T -> R -> X    =>      R
+   *    /   /                  /  \
+   *   A   B                  T    X
+   *                         / \
+   *                        A   B
+   */
+  private split = (oldT: TreeNode): TreeNode => {
+    if (
+      oldT.right == null ||
+      oldT.right.right == null ||
+      oldT.level > oldT.right.right.level
+    ) {
+      return oldT;
+    }
+    const newT = {
+      ...oldT,
+      right: oldT.right.left,
+    };
+    const newR = {
+      ...oldT.right,
+      left: newT,
+      level: oldT.right.level + 1,
+    };
+
+    return newR;
+  };
+
   public toString = (): string => {
     return this.toStringNode(this.root, 1);
   };
 
   private indent = (level: number) => [...Array(level)].map(() => " ").join("|");
+
   private toStringNode = (root: TreeNode | undefined, level: number) => {
     if (root == null) return `${this.indent(level)}+ null`;
     const leftString = this.toStringNode(root.left, level + 1);
     const rightString = this.toStringNode(root.right, level + 1);
 
-    const result: string = `${this.indent(level)}+ ${root.value}\n${rightString}\n${leftString}`;
+    const result: string = `${this.indent(level)}+ ${root.value}(l: ${root.level})\n${rightString}\n${leftString}`;
     return result;
   };
 }
