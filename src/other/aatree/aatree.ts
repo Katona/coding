@@ -15,14 +15,19 @@ export class AATree {
     return this.findNode(this.root, value) != null;
   };
 
+  public add = (n: number): AATree => {
+    return new AATree(this.insert(this.root, n));
+  };
+
+  public delete = (value: number) => {
+    return new AATree(this.deleteNode(this.root, value));
+  };
+
   private findNode = (root: TreeNode | undefined, value: number): TreeNode | undefined => {
     if (!root) return undefined;
     if (root.value === value) return root;
     if (value < root.value) return this.findNode(root.left, value);
     else if (value > root.value) return this.findNode(root.right, value);
-  };
-  public add = (n: number): AATree => {
-    return new AATree(this.insert(this.root, n));
   };
 
   private insert = (root: TreeNode | undefined, n: number): TreeNode => {
@@ -34,10 +39,6 @@ export class AATree {
       result = { ...root, right: this.insert(root.right, n) };
     }
     return result;
-  };
-
-  public delete = (value: number) => {
-    return new AATree(this.deleteNode(this.root, value));
   };
 
   private deleteNode = (root: TreeNode | undefined, n: number): TreeNode | undefined => {
@@ -64,10 +65,8 @@ export class AATree {
   };
 
   private findSuccessor = (root: TreeNode): TreeNode => {
-    let minNode = root.right!;
-    let parent = root;
+    let minNode = root;
     while (minNode.left) {
-      parent = minNode;
       minNode = minNode.left;
     }
     return minNode;
