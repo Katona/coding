@@ -2,6 +2,7 @@ type TreeNode = {
   value: number;
   left?: TreeNode;
   right?: TreeNode;
+  level: number;
 };
 
 export class AATree {
@@ -31,7 +32,7 @@ export class AATree {
   };
 
   private insert = (root: TreeNode | undefined, n: number): TreeNode => {
-    if (root == null) return { value: n };
+    if (root == null) return { value: n, level: 1 };
     let result = root;
     if (n < root.value) {
       result = { ...root, left: this.insert(root.left, n) };
@@ -53,12 +54,12 @@ export class AATree {
       const successor = this.findSuccessor(root.right);
       if (root.right === successor) {
         // Successor is direct right child, we simply elevate it with preserving the original left tree
-        result = { ...successor, left: root.left };
+        result = { ...successor, left: root.left, level: root.level };
       } else {
         // Successor is somewhere else in the right tree, remove it first.
         const newRight = this.deleteNode(root.right, successor.value);
         // Delete the node by making its successor take it's place.
-        result = { value: successor.value, left: root.left, right: newRight};
+        result = { value: successor.value, left: root.left, right: newRight, level: root.level };
       }
     }
     return result;
