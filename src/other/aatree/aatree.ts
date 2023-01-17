@@ -39,6 +39,7 @@ export class AATree {
     } else if (n > root.value) {
       result = { ...root, right: this.insert(root.right, n) };
     }
+    // Re-balance
     result = this.skew(result);
     result = this.split(result);
     return result;
@@ -64,6 +65,7 @@ export class AATree {
         result = { value: successor.value, left: root.left, right: newRight, level: root.level };
       }
     }
+    // Re-balance
     result = this.decreaseLevel(result);
     result = this.skew(result);
     result = result && { ...result, right: this.skew(result?.right) };
