@@ -27,6 +27,13 @@ describe("aatree", () => {
       expect(tree.contains(2)).toBeFalsy();
     });
 
+    it("should do nothing when non-existing element is deleted", () => {
+      let tree = new AATree();
+      tree = tree.add(1);
+      tree = tree.delete(2);
+      expect(tree.contains(1)).toBeTruthy();
+    })
+
     it("should work when successor is not direct right child", () => {
       let tree = new AATree();
       tree = tree.add(5).add(3).add(1).add(4).add(9).add(7).add(6).add(8).add(10).add(6.5);
