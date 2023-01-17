@@ -1,8 +1,8 @@
 type TreeNode = {
-  value: number;
-  left?: TreeNode;
-  right?: TreeNode;
-  level: number;
+  readonly value: number;
+  readonly left?: TreeNode;
+  readonly right?: TreeNode;
+  readonly level: number;
 };
 
 export class AATree {
