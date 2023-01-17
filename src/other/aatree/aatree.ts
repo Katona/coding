@@ -64,6 +64,15 @@ export class AATree {
         result = { value: successor.value, left: root.left, right: newRight, level: root.level };
       }
     }
+    result = this.decreaseLevel(result);
+    result = this.skew(result);
+    result = result && { ...result, right: this.skew(result?.right) };
+    if (result?.right) {
+      result = { ...result, right: { ...result.right, right: this.skew(result.right.right) } };
+    }
+    result = this.split(result);
+    result = result && { ...result, right: this.split(result.right) };
+
     return result;
   };
 
@@ -83,8 +92,10 @@ export class AATree {
    * A   B    X               A    B   X
    *
    */
-  private skew = (oldT: TreeNode): TreeNode => {
-    if (oldT.left == null || oldT.left.level < oldT.level) return oldT;
+  private skew(oldT: TreeNode): TreeNode;
+  private skew(oldT: TreeNode | undefined): TreeNode | undefined;
+  private skew(oldT: TreeNode | undefined) {
+    if (!oldT || !oldT.left || oldT.left.level < oldT.level) return oldT;
     const newT: TreeNode = {
       ...oldT,
       left: oldT.left.right,
@@ -94,7 +105,7 @@ export class AATree {
       right: newT,
     };
     return newL;
-  };
+  }
 
   /**
    *     |                      |
@@ -105,12 +116,10 @@ export class AATree {
    *                         / \
    *                        A   B
    */
-  private split = (oldT: TreeNode): TreeNode => {
-    if (
-      oldT.right == null ||
-      oldT.right.right == null ||
-      oldT.level > oldT.right.right.level
-    ) {
+  private split(oldT: TreeNode): TreeNode;
+  private split(oldT: TreeNode | undefined): TreeNode | undefined;
+  private split(oldT: TreeNode | undefined): TreeNode | undefined {
+    if (!oldT || !oldT.right || oldT.right.right == null || oldT.level > oldT.right.right.level) {
       return oldT;
     }
     const newT = {
@@ -124,6 +133,19 @@ export class AATree {
     };
 
     return newR;
+  }
+
+  private decreaseLevel = (root: TreeNode | undefined): TreeNode | undefined => {
+    if (!root) return undefined;
+    let result = root;
+    const newLevel = Math.min(root.left?.level ?? 0, root.right?.level ?? 0) + 1;
+
+    if (newLevel < root.level) {
+      const newRight =
+        root.right && newLevel < root.right.level ? { ...root.right, level: newLevel } : root.right;
+      result = { ...root, level: newLevel, right: newRight };
+    }
+    return result;
   };
 
   public toString = (): string => {
@@ -137,7 +159,9 @@ export class AATree {
     const leftString = this.toStringNode(root.left, level + 1);
     const rightString = this.toStringNode(root.right, level + 1);
 
-    const result: string = `${this.indent(level)}+ ${root.value}(l: ${root.level})\n${rightString}\n${leftString}`;
+    const result: string = `${this.indent(level)}+ ${root.value}(l: ${
+      root.level
+    })\n${rightString}\n${leftString}`;
     return result;
   };
 }

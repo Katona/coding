@@ -41,6 +41,13 @@ describe("aatree", () => {
       expect(tree.contains(8)).toBeTruthy();
       expect(tree.contains(9)).toBeTruthy();
     })
+
+    it("should maintain the balance of the tree",  () => {
+      let tree = new AATree().add(5).add(3).add(1).add(4).add(9).add(7).add(6).add(8).add(10).add(6.5);
+      console.log(tree.toString());
+      tree = tree.delete(1).delete(4).delete(3);
+      console.log(tree.toString());
+    })
   });
 
   describe("asd", () => {
