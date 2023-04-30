@@ -1,8 +1,4 @@
-type TreeNode = {
-  value: number;
-  left?: TreeNode;
-  right?: TreeNode;
-};
+import { TreeNode } from "../common/tree";
 
 const inorderTraversal = (root?: TreeNode): number[] => {
   if (!root) return [];
