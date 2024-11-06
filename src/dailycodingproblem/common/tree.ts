@@ -4,4 +4,9 @@ type TreeNode = {
   right?: TreeNode;
 };
 
-export { TreeNode };
+type KTreeNode = {
+  value: number;
+  children: (KTreeNode | undefined)[];
+};
+
+export { TreeNode, KTreeNode };
